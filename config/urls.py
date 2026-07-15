@@ -22,6 +22,8 @@ urlpatterns = [
      path('admin/', admin.site.urls),
    # path('home/',views.home,name="home") 
    #using include() to include the urls from users app
-    path('users/', include('users.urls'))
+    path('', include('users.urls')),
+    path('blog/',include('blog.urls')),
+    path('shop/',include('shop.urls')),
 
 ]

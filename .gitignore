@@ -1,4 +1,21 @@
+# Byte-compiled files
+__pycache__/
+*.py[cod]
+
+# Virtual environment
 venv/
 .env
-__pycache__/
-*.pyc
+
+# Database
+db.sqlite3
+
+# Static/media (optional depending on project)
+media/
+
+# IDE
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
