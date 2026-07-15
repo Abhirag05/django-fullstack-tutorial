@@ -19,7 +19,9 @@ from django.urls import include,path
 from users import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('home/',views.home,name="home")
-    
+     path('admin/', admin.site.urls),
+   # path('home/',views.home,name="home") 
+   #using include() to include the urls from users app
+    path('users/', include('users.urls'))
+
 ]
