@@ -7,3 +7,6 @@ def home(request):
 
 def shop(request):
     return HttpResponse("Hello, world. You're at the shops page.")
+
+def product_details(request,id):
+    return HttpResponse(f"Product detail page of id:{id}")
