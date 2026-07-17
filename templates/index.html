@@ -3,11 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>{%block title %}Landing page{% endblock title %}</title>
   </head>
   <body>
     <div>
-      <h1>Hello Abhirag</h1>
+      <h1>Hi , I am Abhirag</h1>
+      <hr>
+      {% block content %} 
+        I am a Fullstack developer
+      {% endblock %}
     </div>
   </body>
 </html>
