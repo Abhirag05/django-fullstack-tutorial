@@ -13,6 +13,7 @@ def home(request):
         'name':'Abhirag S V',
         'age' :20,
         'skills':['python','django','javascript'],
+        'role':'Developer',
         'address':{
             'title':"My details",
             'city':'Bangalore',
