@@ -1,0 +1,14 @@
+{%extends 'index.html'%}
+{%block title%}Blog Home{%endblock title%}
+
+{%block content%}
+    <h1>
+        We are in the blogs article filter
+    </h1>
+    <hr>
+    <h2>
+         Article : {{post_list.title|upper}} <br>
+    </h2>
+    <h3>Author: {{post_list.author|lower}}</h3>
+    <h4>Date: {{post_list.date|date:"F j, Y"}}</h4>
+{%endblock%}

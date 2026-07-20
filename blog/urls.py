@@ -6,4 +6,5 @@ urlpatterns=[
     path('blog-about/', views.about, name="blog-about"),
     re_path(r'^blog-about/(?P<year>[0-9]{4})/$',views.article_by_year,name="article_by_year"),
     path('blog-about/<int:year>/<str:month>/',views.article_details,name="article_details"),
+    path('article-filter/',views.article_filter,name="article_filter")
 ]

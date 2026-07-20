@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from datetime import datetime
 
 # Create your views here.
 def home(request):
@@ -13,3 +14,16 @@ def article_by_year(request,year):
 
 def article_details(request,**kwargs):
     return HttpResponse(f"Article from the year: {kwargs['year']} and month:{kwargs['month']}")
+
+#Filters example
+def article_filter(request):
+    post_list ={
+            "title": "Post 1",
+            "author": "Author 1",
+            "date": datetime(2025, 8, 1),
+            "content": "This is the content of the post.",
+            "price": 100,
+        }
+    return render(request, 'blogs/article_filter.html', {'post_list': post_list})
+
+        
