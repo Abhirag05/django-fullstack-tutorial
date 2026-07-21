@@ -17,7 +17,12 @@ def article_details(request,**kwargs):
 
 #Filters example
 def article_filter(request):
+    blogs=[
+        {"title": "Blog 1", "is_featured": True, "author": "Author 1"},
+        {"title": "Blog 2", "is_featured": False, "author": "Author 2"}
+    ]
     post_list ={
+            "blogs": blogs,
             "title": "Post 1",
             "author": "Author 1",
             "date": datetime(2025, 8, 1),

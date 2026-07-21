@@ -15,4 +15,19 @@
     <h5>Content: {{post_list.content|truncatechars:20}}</h5>
     <h6>Price: ${{post_list.price|floatformat:2}}</h6>
     
+    <h1>If else</h1>
+    <p>{% if post_list.blogs.0.is_featured %}
+        This is a featured article.
+    {% else %}
+        This is not a featured article.
+    {% endif %}</p>
+
+    <h1>For Loop</h1>
+    {%for blog in post_list.blogs%}
+    <ul>
+        <li>Title: {{blog.title}}</li>
+        <li>Author: {{blog.author}}</li>
+        <li>Featured: {{blog.is_featured}}</li>
+    </ul>
+    {%endfor%}
 {%endblock%}
