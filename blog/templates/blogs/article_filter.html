@@ -50,5 +50,13 @@
             <td>{{blog.is_featured}}</td>
         </tr>
         {%endfor%}
+
+        <h1>Auto Escape</h1>
+        <!-- by deault the auto escape is on in django templates. If you want to turn it off you can use the safe filter or use the autoescape tag. -->
+        <p>Auto escape on:{{post_list.test}}</p>
+        <p>Auto escape off:{{post_list.test|safe}}</p>
+        {%autoescape off%}
+        <p>Auto escape off second method:{{post_list.test}}</p>
+        {%endautoescape%}
     
 {%endblock%}

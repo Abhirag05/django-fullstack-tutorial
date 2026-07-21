@@ -29,6 +29,7 @@ def article_filter(request):
             "date": datetime(2025, 8, 1),
             "content": "This is the content of the post.",
             "price": 100,
+            "test": "<b>Auto escape example</b>",
         }
     return render(request, 'blogs/article_filter.html', {'post_list': post_list})
 
