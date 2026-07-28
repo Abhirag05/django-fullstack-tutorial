@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{%block title %}{{title}}{% endblock title %}</title>
     {%load static%}
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
   </head>
   <body>
@@ -12,8 +13,7 @@
      <hr>
     <div>
       {% block content %} 
-        
-
+       <h1 class="bg-sky-500">This is the default content. You can override this block in child templates.</h1>
       {% endblock %}
     </div>
     <hr>
