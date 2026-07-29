@@ -6,7 +6,7 @@ Build ForgeFit using:
 
 * Frontend: Next.js
 * Backend: Django + DRF
-* Database: PostgreSQL
+* Database: SQLite for now
 
 Focus:
 
@@ -48,23 +48,15 @@ forgefit-django-backend/
 
 ---
 
-# PostgreSQL Setup
+# SQLite Setup
 
 Database:
 
 ```env
-DB_NAME=forgefit
+db.sqlite3
 ```
 
-User:
-
-```env
-DB_USER=forgefit_user
-```
-
-Database successfully recreated and connected.
-
-Permissions fixed.
+Database configured successfully.
 
 Migrations running successfully.
 
@@ -73,13 +65,6 @@ Migrations running successfully.
 # Environment Variables
 
 ```env
-DB_ENGINE=django.db.backends.postgresql
-DB_NAME=forgefit
-DB_USER=forgefit_user
-DB_PASSWORD=forgefit8848
-DB_HOST=localhost
-DB_PORT=5432
-
 SECRET_KEY=...
 DEBUG=True
 ```
