@@ -1,5 +1,5 @@
 from django.contrib import admin
-from portfolio.models import Project
+from portfolio.models import Project,Contact
 
 # Register your models here.
 #admin.site.register(Project)
@@ -10,3 +10,10 @@ class ProjectAdmin(admin.ModelAdmin):
     search_fields = ('title', 'description')
     list_filter = ('title', 'description')
     ordering = ('title',)
+
+@admin.register(Contact)
+class ContactAdmin(admin.ModelAdmin):
+    list_display = ('name', 'email', 'message')
+    search_fields = ('name', 'email', 'message')
+    list_filter = ('name', 'email', 'message')
+    ordering = ('name',)
