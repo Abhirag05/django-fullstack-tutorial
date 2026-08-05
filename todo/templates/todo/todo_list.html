@@ -3,4 +3,22 @@
 
 {% block content %}
     <h1>Todo List</h1>
+    <Table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Completed</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for todo in todo_data %}
+            <tr>
+                <td>{{todo.title}}</td>
+                <td>{{todo.description}}</td>
+                <td>{{todo.completed}}</td>
+            </tr>
+            {% endfor %}    
+        </tbody>
+    </Table>
 {% endblock content %}
