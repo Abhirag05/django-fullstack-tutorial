@@ -3,12 +3,21 @@
 
 {% block content %}
     <h1>Todo List</h1>
+    <div>
+        {% if messages %}
+            {% for message in messages %}
+                <p style="color: {% if message.tags == 'error' %}red{% else %}green{% endif %};">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+    </div>
+    <button><a href="{% url 'todo:todo_create' %}">Create Todo</a></button>
     <Table>
         <thead>
             <tr>
                 <th>Title</th>
                 <th>Description</th>
                 <th>Completed</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -16,7 +25,16 @@
             <tr>
                 <td>{{todo.title}}</td>
                 <td>{{todo.description}}</td>
-                <td>{{todo.completed}}</td>
+                <td>
+                    <form action="{% url 'todo:toggle_complete' todo.pk %}" method="POST">
+                        {% csrf_token %}
+                        <input type="checkbox" name="completed" {% if todo.completed %}checked{% endif %} onchange="this.form.submit()">
+                    </form>
+                </td>
+                <td>
+                    <button><a href="{% url 'todo:todo_update' todo.pk %}">Update</a></button>
+                    <button><a href="{% url 'todo:todo_delete' todo.pk %}">Delete</a></button>
+                </td>
             </tr>
             {% endfor %}    
         </tbody>
