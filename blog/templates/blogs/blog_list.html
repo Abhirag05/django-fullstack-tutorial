@@ -4,7 +4,10 @@
     <h1>Blog List</h1>
     <ul>
         {% for blog in blogs %}
-            <li><a href="{% url 'blog:blog_detail' blog.id %}">{{ blog.title }} - {{ blog.content }}</a></li>
+            <li>
+                <a href="{% url 'blog:blog_detail' blog.id %}">{{ blog.title }} - {{ blog.content }}</a> |
+                <a href="{% url 'blog:blog_edit' blog.id %}">Edit</a>
+            </li>
         {% endfor %}
     </ul>
 {% endblock %}

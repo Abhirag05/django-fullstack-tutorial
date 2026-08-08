@@ -52,3 +52,14 @@ def blog_list(request):
 def blog_detail(request, pk):
     blog=get_object_or_404(Blog, pk=pk)
     return render(request, 'blogs/blog_detail.html', {'blog': blog})
+
+def blog_edit(request, pk):
+    blog = get_object_or_404(Blog, pk=pk)
+    form = BlogForm(instance=blog)
+    if request.method == 'POST':
+        form = BlogForm(request.POST, instance=blog)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Blog updated successfully!")
+            return redirect('blog:blog_list')
+    return render(request, 'blogs/create_blog.html', {'form': form})
