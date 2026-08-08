@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from django.http import HttpResponse
 from datetime import datetime
 from .forms import BlogForm
@@ -44,3 +44,11 @@ def create_blog(request):
             messages.success(request, "Blog created successfully!")
             return redirect('blog:create_blog')
     return render(request, 'blogs/create_blog.html', {'form': form})
+
+def blog_list(request):
+    blogs = Blog.objects.all()
+    return render(request, 'blogs/blog_list.html', {'blogs': blogs})
+
+def blog_detail(request, pk):
+    blog=get_object_or_404(Blog, pk=pk)
+    return render(request, 'blogs/blog_detail.html', {'blog': blog})
