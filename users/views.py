@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.contrib import messages
 # Create your views here.
 
 class User:
@@ -22,3 +23,11 @@ def home(request):
         'empty_value':None,
     }
     return render(request,'index.html',context)
+
+def show_messages(request):
+    messages.debug(request, 'This is a debug message.')
+    messages.info(request, 'This is an info message.')
+    messages.success(request, 'This is a success message.')
+    messages.warning(request, 'This is a warning message.')
+    messages.error(request, 'This is an error message.')
+    return render(request, 'users/messages.html')
