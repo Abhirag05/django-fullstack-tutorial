@@ -42,7 +42,7 @@ def create_blog(request):
         if form.is_valid():
             form.save()
             messages.success(request, "Blog created successfully!")
-            return redirect('blog:create_blog')
+            return redirect('blog:blog_list')
     return render(request, 'blogs/create_blog.html', {'form': form})
 
 def blog_list(request):
@@ -63,3 +63,11 @@ def blog_edit(request, pk):
             messages.success(request, "Blog updated successfully!")
             return redirect('blog:blog_list')
     return render(request, 'blogs/create_blog.html', {'form': form})
+
+def blog_delete(request, pk):
+    blog = get_object_or_404(Blog, pk=pk)
+    if request.method == 'POST':
+        blog.delete()
+        messages.success(request, "Blog deleted successfully!")
+        return redirect('blog:blog_list')
+    return render(request, 'blogs/blog_delete.html', {'blog': blog})

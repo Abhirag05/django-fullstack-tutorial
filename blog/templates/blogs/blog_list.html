@@ -1,12 +1,21 @@
-{%extends "index.html"%}
+{% extends "index.html" %}
 
-{%block content%}
+{% block content %}
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
     <h1>Blog List</h1>
+    <button><a href="{% url 'blog:create_blog' %}">Create New Blog</a></button>
     <ul>
         {% for blog in blogs %}
             <li>
                 <a href="{% url 'blog:blog_detail' blog.id %}">{{ blog.title }} - {{ blog.content }}</a> |
-                <a href="{% url 'blog:blog_edit' blog.id %}">Edit</a>
+                <a href="{% url 'blog:blog_edit' blog.id %}">Edit</a> | 
+                <a href="{% url 'blog:blog_delete' blog.id %}">Delete</a>
             </li>
         {% endfor %}
     </ul>
