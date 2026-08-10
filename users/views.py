@@ -68,6 +68,6 @@ def logout_view(request):
     messages.success(request, 'You have been logged out.')
     return redirect('login_view')
 
-@login_required
+@login_required(login_url='login_view')
 def dashboard(request):
     return render(request, 'users/dashboard.html')
