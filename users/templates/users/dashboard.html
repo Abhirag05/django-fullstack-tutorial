@@ -3,4 +3,6 @@
     <h2>Dashboard</h2>
     <p>Welcome, {{ user.username }}!</p>
     <a href="{% url 'logout_view' %}">Logout</a>
+    <a href="{% url 'upload_profile' %}">Upload Profile</a>
+    <a href="{% url 'profile_view' %}">View Profile</a>
 {% endblock %}
