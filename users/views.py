@@ -75,19 +75,23 @@ def dashboard(request):
 
 @login_required(login_url='login_view')
 def upload_profile(request):
+    existing_profile = Profile.objects.filter(user=request.user).first()
+        
     if request.method == 'POST':
-        form = UserProfileForm(request.POST, request.FILES)
+        form = UserProfileForm(request.POST, request.FILES, instance=existing_profile)
         if form.is_valid():
-            form.save()
+            profile = form.save(commit=False)
+            profile.user = request.user
+            profile.save()
             messages.success(request, 'Profile updated successfully.')
             return redirect('profile_view')
         else:
             messages.error(request, 'Profile update failed. Please correct the error below.')
     else:
-        form = UserProfileForm()
+        form = UserProfileForm(instance=existing_profile)
     return render(request, 'users/upload_profile.html', {'form': form})
 
 @login_required(login_url='login_view')
 def profile_view(request):
-    profile = Profile.objects.all()
+    profile = Profile.objects.filter(user=request.user).first()
     return render(request, 'users/profile.html', {'profile': profile})

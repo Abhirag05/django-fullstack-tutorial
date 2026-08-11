@@ -1,15 +1,19 @@
-{%extends "base.html"%}
+{%extends "users/base.html"%}
 {%block title%}Profile{%endblock%}
 {%block content%}
     <h2>Profile</h2>
-    <p>Name: {{ profile.name }}</p>
-    <p>Email: {{ profile.email }}</p>
-    <p>Bio: {{ profile.bio }}</p>
-    <p>Profile Picture:</p>
-    {% if profile.image %}
-        <img src="{{ profile.image.url }}" alt="Profile Picture" width="200">
+    {% if profile %}
+        <p>Name: {{ profile.user.username }}</p>
+        <p>Email: {{ profile.user.email }}</p>
+        <p>Bio: {{ profile.bio }}</p>
+        <p>Profile Picture:</p>
+        {% if profile.image %}
+            <img src="{{ profile.image.url }}" alt="Profile Picture" width="200">
+        {% else %}
+            <p>No profile picture uploaded.</p>
+        {% endif %}
     {% else %}
-        <p>No profile picture uploaded.</p>
+        <p>No profile found. Please upload your profile details first.</p>
     {% endif %}
     <!-- Add more profile details as needed -->
 {%endblock%}
