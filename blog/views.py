@@ -4,6 +4,8 @@ from datetime import datetime
 from .forms import BlogForm
 from django.contrib import messages
 from .models import Blog 
+from django.core.paginator import Paginator
+
 # Create your views here.
 def home(request):
     return render(request,'blogs/index.html')
@@ -47,7 +49,10 @@ def create_blog(request):
 
 def blog_list(request):
     blogs = Blog.objects.all()
-    return render(request, 'blogs/blog_list.html', {'blogs': blogs})
+    paginator = Paginator(blogs, 2)  # Show 2 blogs per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'blogs/blog_list.html', {'page_obj': page_obj})
 
 def blog_detail(request, pk):
     blog=get_object_or_404(Blog, pk=pk)
