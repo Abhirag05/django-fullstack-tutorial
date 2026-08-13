@@ -5,6 +5,7 @@ from .forms import BlogForm
 from django.contrib import messages
 from .models import Blog 
 from django.core.paginator import Paginator
+from django.db.models import Q
 
 # Create your views here.
 def home(request):
@@ -48,11 +49,26 @@ def create_blog(request):
     return render(request, 'blogs/create_blog.html', {'form': form})
 
 def blog_list(request):
-    blogs = Blog.objects.all()
+    query = request.GET.get('q')
+    category = request.GET.get('category')
+    if query:
+        blogs = Blog.objects.filter(
+            Q(title__icontains=query) | Q(content__icontains=query)
+        )
+    elif category:
+        blogs = Blog.objects.filter(category__iexact=category)
+    else:
+        blogs = Blog.objects.all()
     paginator = Paginator(blogs, 2)  # Show 2 blogs per page
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    return render(request, 'blogs/blog_list.html', {'page_obj': page_obj})
+    return render(request, 'blogs/blog_list.html', 
+    {
+        'page_obj': page_obj,
+        'query': query,
+        'category': category
+    }
+    )
 
 def blog_detail(request, pk):
     blog=get_object_or_404(Blog, pk=pk)
