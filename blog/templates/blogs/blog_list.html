@@ -10,6 +10,7 @@
     {% endif %}
     <h1>Blog List</h1>
     <button><a href="{% url 'blog:create_blog' %}">Create New Blog</a></button>
+    
     <form method="get" action="{% url 'blog:blog_list' %}">
         <input type="search" name="q" placeholder="Search by title or content" value="{{ query }}">
         Category:
@@ -20,6 +21,7 @@
         </select>
         <button type="submit">Search</button>
     </form>
+    
     <ul>
         {% for blog in page_obj %}
             <li>
