@@ -6,6 +6,7 @@ from django.contrib import messages
 from .models import Blog 
 from django.core.paginator import Paginator
 from django.db.models import Q
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 # Create your views here.
 def home(request):
@@ -38,7 +39,7 @@ def article_filter(request):
         }
     return render(request, 'blogs/article_filter.html', {'post_list': post_list})
 
-def create_blog(request):
+"""def create_blog(request):
     form=BlogForm()
     if request.method == 'POST':
         form = BlogForm(request.POST)
@@ -46,9 +47,17 @@ def create_blog(request):
             form.save()
             messages.success(request, "Blog created successfully!")
             return redirect('blog:blog_list')
-    return render(request, 'blogs/create_blog.html', {'form': form})
+    return render(request, 'blogs/create_blog.html', {'form': form}) """
 
-def blog_list(request):
+#class based views for creating the blog
+class BlogCreateView(CreateView):
+    model = Blog
+    form_class = BlogForm
+    template_name = 'blogs/create_blog.html'
+    success_url = '/blog/blog-list/'
+
+
+"""def blog_list(request):
     query = request.GET.get('q')
     category = request.GET.get('category')
     if query:
@@ -68,13 +77,40 @@ def blog_list(request):
         'query': query,
         'category': category
     }
-    )
+    ) """
 
+#Class based views for listing the blogs
+
+class BlogListView(ListView):
+    model = Blog
+    template_name = 'blogs/blog_list.html'
+    context_object_name = 'blogs'
+    paginate_by = 2
+
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        category = self.request.GET.get('category')
+        if query:
+            return Blog.objects.filter(
+                Q(title__icontains=query) | Q(content__icontains=query)
+            )
+        elif category:
+            return Blog.objects.filter(category__iexact=category)
+        else:
+            return Blog.objects.all()
+"""
 def blog_detail(request, pk):
     blog=get_object_or_404(Blog, pk=pk)
-    return render(request, 'blogs/blog_detail.html', {'blog': blog})
+    return render(request, 'blogs/blog_detail.html', {'blog': blog}) """
 
-def blog_edit(request, pk):
+#class based views for blog detail
+class BlogDetailView(DetailView):
+    model = Blog
+    template_name = 'blogs/blog_detail.html'
+    context_object_name = 'blog'
+
+
+"""def blog_edit(request, pk):
     blog = get_object_or_404(Blog, pk=pk)
     form = BlogForm(instance=blog)
     if request.method == 'POST':
@@ -83,12 +119,25 @@ def blog_edit(request, pk):
             form.save()
             messages.success(request, "Blog updated successfully!")
             return redirect('blog:blog_list')
-    return render(request, 'blogs/create_blog.html', {'form': form})
+    return render(request, 'blogs/create_blog.html', {'form': form}) """
 
-def blog_delete(request, pk):
+#class based views for blog edit
+class BlogUpdateView(UpdateView):
+    model = Blog
+    form_class = BlogForm
+    template_name = 'blogs/create_blog.html'
+    success_url = '/blog/blog-list/'
+
+"""def blog_delete(request, pk):
     blog = get_object_or_404(Blog, pk=pk)
     if request.method == 'POST':
         blog.delete()
         messages.success(request, "Blog deleted successfully!")
         return redirect('blog:blog_list')
-    return render(request, 'blogs/blog_delete.html', {'blog': blog})
+    return render(request, 'blogs/blog_delete.html', {'blog': blog}) """
+
+#class based views for blog delete
+class BlogDeleteView(DeleteView):
+    model = Blog
+    template_name = 'blogs/blog_delete.html'
+    success_url = '/blog/blog-list/'
