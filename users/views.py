@@ -108,11 +108,12 @@ def get_session(request):
     return HttpResponse(f" Welcome, {name}! You are {age} years old.")
 
 def delete_session(request):
-    try:
+    '''try:
         del request.session['name']
         del request.session['age']
         return HttpResponse("Session data deleted.")
     except KeyError:
-        return HttpResponse("No session data to delete.")
-    #request.session.flush()  # This will delete all session data
+        return HttpResponse("No session data to delete.")'''
+    request.session.flush()
+    return HttpResponse("All session data deleted.")
     
