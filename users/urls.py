@@ -10,5 +10,8 @@ urlpatterns = [
     path('dashboard/',views.dashboard,name="dashboard"),
     path('upload/',views.upload_profile,name="upload_profile"),
     path('profile/',views.profile_view,name="profile_view"),
+    path('set-session/', views.set_session, name='set_session'),
+    path('get-session/', views.get_session, name='get_session'),
+    path('delete-session/', views.delete_session, name='delete_session')
 ]
 

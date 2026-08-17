@@ -5,6 +5,7 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from .models import Profile 
+from django.http import HttpResponse
 # Create your views here.
 
 class User:
@@ -95,3 +96,23 @@ def upload_profile(request):
 def profile_view(request):
     profile = Profile.objects.filter(user=request.user).first()
     return render(request, 'users/profile.html', {'profile': profile})
+
+def set_session(request):
+    request.session['name'] = 'Abhirag'
+    request.session['age'] = 20
+    return HttpResponse("Session data set.")
+
+def get_session(request):
+    name = request.session.get('name', 'Guest')
+    age = request.session.get('age', 'Unknown')
+    return HttpResponse(f" Welcome, {name}! You are {age} years old.")
+
+def delete_session(request):
+    try:
+        del request.session['name']
+        del request.session['age']
+        return HttpResponse("Session data deleted.")
+    except KeyError:
+        return HttpResponse("No session data to delete.")
+    #request.session.flush()  # This will delete all session data
+    
