@@ -17,5 +17,6 @@ urlpatterns = [
     path('get-cookie/', views.get_cookie, name='get_cookie'),
     path('delete-cookie/', views.delete_cookie, name='delete_cookie'),
     path('send-email/', views.send_email, name='send_email'),
+    path('send-html-email/', views.send_html_email, name='send_html_email'),
 ]
 

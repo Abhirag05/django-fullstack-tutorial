@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from .models import Profile 
 from django.core.mail import send_mail
 from django.http import HttpResponse
+from djangp.template.loader import render_to_string
 # Create your views here.
 
 class User:
@@ -142,3 +143,12 @@ def send_email(request):
     recipient_list = ['test@example.com']
     send_mail(subject, message, from_email, recipient_list)
     return HttpResponse("Email sent successfully.")
+
+#email using html template
+def send_html_email(request):
+    subject = 'HTML Email Test'
+    from_email = 'from@example.com'
+    recipient_list = ['test@example.com']
+    message = render_to_string('users/html_email.html', {'user': request.user})
+    send_mail(subject, message, from_email, recipient_list, html_message=message)
+    return HttpResponse("HTML email sent successfully.")
