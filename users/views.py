@@ -116,4 +116,23 @@ def delete_session(request):
         return HttpResponse("No session data to delete.")'''
     request.session.flush()
     return HttpResponse("All session data deleted.")
+
+def set_cookie(request):
+    response = HttpResponse("Cookie has been set.")
+    response.set_cookie('name', 'Abhirag', max_age=3600)  # Cookie expires in 1 hour
+    response.set_cookie('course','bca', max_age=3600)
+    return response
+
+def get_cookie(request):
+    name = request.COOKIES.get('name', 'Guest')
+    course = request.COOKIES.get('course', 'Unknown')
+    return HttpResponse(f"Welcome, {name}! You are enrolled in {course}.")
+
+def delete_cookie(request):
+    response = HttpResponse("Cookie has been deleted.")
+    response.delete_cookie('name')
+    response.delete_cookie('course')
+    return response
+
+
     
