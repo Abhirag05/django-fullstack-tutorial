@@ -5,6 +5,7 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from .models import Profile 
+from django.core.mail import send_mail
 from django.http import HttpResponse
 # Create your views here.
 
@@ -134,5 +135,10 @@ def delete_cookie(request):
     response.delete_cookie('course')
     return response
 
-
-    
+def send_email(request):
+    subject = 'Test Email'
+    message = 'This is a test email sent from Django.'
+    from_email = 'from@example.com'
+    recipient_list = ['test@example.com']
+    send_mail(subject, message, from_email, recipient_list)
+    return HttpResponse("Email sent successfully.")
