@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from .models import Profile 
 from django.core.mail import send_mail
 from django.http import HttpResponse
-from djangp.template.loader import render_to_string
+from django.template.loader import render_to_string
 # Create your views here.
 
 class User:
