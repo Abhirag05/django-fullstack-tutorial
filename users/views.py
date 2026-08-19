@@ -5,7 +5,7 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from .models import Profile 
-from django.core.mail import send_mail
+from django.core.mail import send_mail,send_mass_mail
 from django.http import HttpResponse
 from django.template.loader import render_to_string
 # Create your views here.
@@ -136,6 +136,7 @@ def delete_cookie(request):
     response.delete_cookie('course')
     return response
 
+#sending single plain text email
 def send_email(request):
     subject = 'Test Email'
     message = 'This is a test email sent from Django.'
@@ -144,7 +145,7 @@ def send_email(request):
     send_mail(subject, message, from_email, recipient_list)
     return HttpResponse("Email sent successfully.")
 
-#email using html template
+#sending single email using html template
 def send_html_email(request):
     subject = 'HTML Email Test'
     from_email = 'from@example.com'
@@ -152,3 +153,12 @@ def send_html_email(request):
     message = render_to_string('users/html_email.html', {'user': request.user})
     send_mail(subject, message, from_email, recipient_list, html_message=message)
     return HttpResponse("HTML email sent successfully.")
+
+#sending bulk email
+def send_bulk_email(request):
+    subject = 'Bulk Email Test'
+    from_email = 'from@example.com'
+    recipient_list = ['test@example.com']
+    message = 'This is a test bulk email sent from Django.'
+    send_mass_mail([(subject, message, from_email, [email]) for email in recipient_list])
+    return HttpResponse("Bulk email sent successfully.")
