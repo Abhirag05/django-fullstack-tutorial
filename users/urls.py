@@ -19,5 +19,6 @@ urlpatterns = [
     path('send-email/', views.send_email, name='send_email'),
     path('send-html-email/', views.send_html_email, name='send_html_email'),
     path('send-bulk-email/', views.send_bulk_email, name='send_bulk_email'),
+    path('send-bulk-html-email/', views.send_bulk_html_email, name='send_bulk_html_email'),
 ]
 

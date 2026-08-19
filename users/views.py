@@ -8,6 +8,7 @@ from .models import Profile
 from django.core.mail import send_mail,send_mass_mail
 from django.http import HttpResponse
 from django.template.loader import render_to_string
+from django.core.mail import EmailMultiAlternatives
 # Create your views here.
 
 class User:
@@ -162,3 +163,14 @@ def send_bulk_email(request):
     message = 'This is a test bulk email sent from Django.'
     send_mass_mail([(subject, message, from_email, [email]) for email in recipient_list])
     return HttpResponse("Bulk email sent successfully.")
+
+#sending bulk email using html template ,we can add attachments and inline images as well
+def send_bulk_html_email(request):
+    subject = 'Bulk HTML Email Test'
+    from_email = 'from@example.com'
+    recipient_list = ['test@example.com','another@example.com']
+    html_content = render_to_string('users/bulk_html_email.html', {'user': request.user})
+    message = EmailMultiAlternatives(subject, '', from_email, recipient_list)
+    message.attach_alternative(html_content, "text/html")
+    message.send()
+    return HttpResponse("Bulk HTML email sent successfully.")
