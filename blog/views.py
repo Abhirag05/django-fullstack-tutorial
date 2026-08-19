@@ -7,7 +7,7 @@ from .models import Blog
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-
+from django.core.cache import cache
 # Create your views here.
 def home(request):
     return render(request,'blogs/index.html')
@@ -97,7 +97,15 @@ class BlogListView(ListView):
         elif category:
             return Blog.objects.filter(category__iexact=category)
         else:
-            return Blog.objects.all()
+            #using of inmemory caching to store the blogs for 15 minutes to reduce the database hits and improve performance
+            cached_blogs = cache.get('blogs')
+            if cached_blogs is None:
+                print("Cache miss: Fetching blogs from database")
+                cached_blogs = Blog.objects.all()
+                cache.set('blogs', cached_blogs, 60 * 15)  # Cache for 15 minutes
+            else:
+                print("Cache hit: Using cached blogs")
+            return cached_blogs
 """
 def blog_detail(request, pk):
     blog=get_object_or_404(Blog, pk=pk)
