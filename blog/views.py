@@ -97,15 +97,17 @@ class BlogListView(ListView):
         elif category:
             return Blog.objects.filter(category__iexact=category)
         else:
-            #using of inmemory caching to store the blogs for 15 minutes to reduce the database hits and improve performance
+            #using of inmemory caching/file based caching to store the blogs for 300 seconds to reduce the database hits and improve performance
             cached_blogs = cache.get('blogs')
             if cached_blogs is None:
                 print("Cache miss: Fetching blogs from database")
                 cached_blogs = Blog.objects.all()
-                cache.set('blogs', cached_blogs, 60 * 15)  # Cache for 15 minutes
+                cache.set('blogs', cached_blogs, 300)  # Cache for 300 seconds
             else:
-                print("Cache hit: Using cached blogs")
+                #print("Cache hit: Using cached blogs")
+                print("Cache hit: Using file-based cached blogs")
             return cached_blogs
+
 """
 def blog_detail(request, pk):
     blog=get_object_or_404(Blog, pk=pk)

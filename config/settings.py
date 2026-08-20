@@ -128,8 +128,20 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD') #we need to set this in .env file as well. This is the app password generated from google account settings.
 
-CACHES = {
+#in memmory cache settings and the location is unique-snowflake which is just a unique identifier. This is used for caching the data in memory for faster access.
+
+"""CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'unique-snowflake',
+    }
+}"""
+
+#file based cache settings
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': BASE_DIR / 'cache',  # Specify the directory for cache files
     }
 }
