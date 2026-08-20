@@ -139,9 +139,18 @@ EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD') #we need to set this in .env
 
 #file based cache settings
 
-CACHES = {
+'''CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
         'LOCATION': BASE_DIR / 'cache',  # Specify the directory for cache files
+    }
+}'''
+
+#Database cache settings
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'my_cache_table',  # Specify the name of the cache table
     }
 }

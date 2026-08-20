@@ -1,11 +1,18 @@
 from django.contrib import messages
 from django.shortcuts import render,redirect,get_object_or_404
 from .models import Todo
+from django.core.cache import cache
 
 # Create your views here.
-
+#Using cache to store data in the db
 def todo_list(request):
-    todo_data=Todo.objects.all()
+    todo_data = cache.get('todo_data')
+    if not todo_data:
+        print("Cache miss: Fetching data from the database.")
+        todo_data = Todo.objects.all()
+        cache.set('todo_data', todo_data, 30)  # Cache for 30 seconds
+    else:
+        print("Cache hit: Using cached data.")
     return render(request,'todo/todo_list.html', {'todo_data': todo_data})
 
 def todo_create(request):
