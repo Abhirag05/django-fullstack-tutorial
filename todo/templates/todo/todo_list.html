@@ -21,6 +21,8 @@
             </tr>
         </thead>
         <tbody>
+            {% load cache %} <!-- Load the cache template tag library,template fragment cache should be used in private dashbaords where the user specific data is to be cached instead of the public data -->
+            {% cache 30 todo_list %}
             {% for todo in todo_data %}
             <tr>
                 <td>{{todo.title}}</td>
@@ -36,7 +38,8 @@
                     <button><a href="{% url 'todo:todo_delete' todo.pk %}">Delete</a></button>
                 </td>
             </tr>
-            {% endfor %}    
+            {% endfor %}
+            {% endcache %}    
         </tbody>
     </Table>
 {% endblock content %}
