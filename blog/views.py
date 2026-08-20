@@ -8,6 +8,8 @@ from django.core.paginator import Paginator
 from django.db.models import Q
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.core.cache import cache
+from django.views.decorators.cache import cache_page
+
 # Create your views here.
 def home(request):
     return render(request,'blogs/index.html')
@@ -22,7 +24,9 @@ def article_details(request,**kwargs):
     return HttpResponse(f"Article from the year: {kwargs['year']} and month:{kwargs['month']}")
 
 #Filters example
+@cache_page(30)  # dedicated file based cach implementation for a single view using decorators.Cache the view for 30 seconds
 def article_filter(request):
+    print("hitting the article filter view from the database")
     blogs=[
         {"title": "Blog 1", "is_featured": True, "author": "Author 1"},
         {"title": "Blog 2", "is_featured": False, "author": "Author 2"},
