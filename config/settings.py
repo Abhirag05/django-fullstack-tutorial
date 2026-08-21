@@ -24,6 +24,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'rest_framework',
+    'drf_spectacular',
     'users',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -154,4 +155,16 @@ CACHES = {
         'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
         'LOCATION': 'my_cache_table',  # Specify the name of the cache table
     }
+}
+
+# Configure DRF to use drf-spectacular for documentation
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+# Optional customization for your Swagger UI
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'DRF Tutorial API',
+    'DESCRIPTION': 'Official API Documentation for DRF Tutorial',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
 }
