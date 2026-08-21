@@ -28,6 +28,7 @@ urlpatterns = [
     path('blog/',include('blog.urls')),
     path('portfolio/',include('portfolio.urls')),
     path('todo/',include('todo.urls')),
+    path('api/',include('drf.urls')),
 
 ]
 if settings.DEBUG:
