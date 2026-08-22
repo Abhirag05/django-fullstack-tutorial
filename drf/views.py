@@ -37,3 +37,10 @@ def update_student(request, pk):
         serializer.save()
         return Response(serializer.data)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['DELETE'])
+def delete_student(request, pk):
+    student = get_object_or_404(Student, id=pk)#using get_object_or_404 to retrieve the student object based on the provided primary key (pk). If the student with the given pk does not exist, it will return a 404 Not Found response.its simplified version of the try-except block used in the update_student function.
+    student.delete()
+    return Response({'message': 'Student deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
