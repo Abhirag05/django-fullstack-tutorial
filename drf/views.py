@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,get_object_or_404
 from .models import Student
 from .serializers import StudentSerializer
 from rest_framework.decorators import api_view
@@ -12,11 +12,28 @@ def student_list(request):
     serializer = StudentSerializer(students, many=True)
     return Response(serializer.data)
 
-@extend_schema(request=StudentSerializer, responses=StudentSerializer)
+@extend_schema(request=StudentSerializer, responses=StudentSerializer)#for adding the schema for the add_student endpoint in swagger documentation
 @api_view(['POST'])
 def add_student(request):
     serializer = StudentSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@extend_schema(request=StudentSerializer, responses=StudentSerializer)
+@api_view(['PUT','PATCH'])
+def update_student(request, pk):
+    try:
+        student = Student.objects.get(id=pk)
+    except Student.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method=='PATCH':#Allow partial updates, so if the request method is PATCH, we set partial=True in the serializer. This allows us to update only the fields that are provided in the request data, while leaving the other fields unchanged.
+        serializer = StudentSerializer(student, data=request.data, partial=True)
+    else:
+        serializer = StudentSerializer(student, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
