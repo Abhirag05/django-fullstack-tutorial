@@ -1,10 +1,12 @@
-from django.shortcuts import render,get_object_or_404
+from django.shortcuts import get_object_or_404
 from .models import Student
 from .serializers import StudentSerializer
-from rest_framework.decorators import api_view
+#from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from drf_spectacular.utils import extend_schema 
+#from drf_spectacular.utils import extend_schema 
+'''
+#function-based views for CRUD operations on Student model,which is useful for smaller applications or when you want to have more control over the request and response handling.with the help of api_view decorator.
 
 @api_view(['GET'])
 def student_list(request):
@@ -43,4 +45,4 @@ def update_student(request, pk):
 def delete_student(request, pk):
     student = get_object_or_404(Student, id=pk)#using get_object_or_404 to retrieve the student object based on the provided primary key (pk). If the student with the given pk does not exist, it will return a 404 Not Found response.its simplified version of the try-except block used in the update_student function.
     student.delete()
-    return Response({'message': 'Student deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
+    return Response({'message': 'Student deleted successfully'}, status=status.HTTP_204_NO_CONTENT)'''
