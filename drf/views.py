@@ -1,3 +1,4 @@
+from rest_framework.views import APIView
 from django.shortcuts import get_object_or_404
 from .models import Student
 from .serializers import StudentSerializer
@@ -46,3 +47,48 @@ def delete_student(request, pk):
     student = get_object_or_404(Student, id=pk)#using get_object_or_404 to retrieve the student object based on the provided primary key (pk). If the student with the given pk does not exist, it will return a 404 Not Found response.its simplified version of the try-except block used in the update_student function.
     student.delete()
     return Response({'message': 'Student deleted successfully'}, status=status.HTTP_204_NO_CONTENT)'''
+
+#Class based views for CRUD operations on Student model, which is useful for larger applications or when you want to take advantage of object-oriented programming concepts.
+class StudentApi(APIView):
+    #for retrieving all students or a specific student based on the provided primary key (pk). If pk is None, it retrieves all students; otherwise, it retrieves the student with the given pk. The retrieved data is serialized using the StudentSerializer and returned in the response.
+    def get(self, request,pk=None):
+        if pk is None:
+            students = Student.objects.all()
+            serializer = StudentSerializer(students, many=True)
+            return Response(serializer.data,status=status.HTTP_200_OK)
+        else:
+            student = get_object_or_404(Student, id=pk)
+            serializer = StudentSerializer(student)
+            return Response(serializer.data,status=status.HTTP_200_OK)
+
+    #for adding a new student. It takes the request data, serializes it using the StudentSerializer, and checks if the serialized data is valid. If valid, it saves the new student to the database and returns the serialized data with a 201 Created status. If not valid, it returns the validation errors with a 400 Bad Request status.
+    def post(self, request):
+        serializer = StudentSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    #for updating the entire record of a student object based on the provided primary key (pk). It retrieves the student object using get_object_or_404, serializes the request data along with the existing student object, and checks if the serialized data is valid. If valid, it saves the updated student to the database and returns the serialized data with a 200 OK status. If not valid, it returns the validation errors with a 400 Bad Request status.
+    def put(self, request, pk):
+        student = get_object_or_404(Student, id=pk)
+        serializer = StudentSerializer(student, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data,status=status.HTTP_200_OK)
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+
+    #for updating a specific field of a student object based on the provided primary key (pk). 
+    def patch(self, request, pk):
+        student = get_object_or_404(Student, id=pk)
+        serializer = StudentSerializer(student, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data,status=status.HTTP_200_OK)
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+
+    #for deleting a student object based on the provided primary key (pk). It retrieves the student object using get_object_or_404, deletes it from the database, and returns a success message with a 204 No Content status.
+    def delete(self, request, pk):
+        student = get_object_or_404(Student, id=pk)
+        student.delete()
+        return Response({'message': 'Student deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
