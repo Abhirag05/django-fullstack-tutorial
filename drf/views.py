@@ -1,10 +1,10 @@
-from rest_framework.views import APIView
-from django.shortcuts import get_object_or_404
+#from rest_framework.views import APIView
+#from django.shortcuts import get_object_or_404
 from .models import Student
 from .serializers import StudentSerializer
 #from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from rest_framework import status
+#from rest_framework.response import Response
+#from rest_framework import status
 #from drf_spectacular.utils import extend_schema 
 '''
 #function-based views with api_view decorator for CRUD operations on Student model,which is useful for smaller applications or when you want to have more control over the request and response handling.
@@ -47,7 +47,7 @@ def delete_student(request, pk):
     student.delete()
     return Response({'message': 'Student deleted successfully'}, status=status.HTTP_204_NO_CONTENT)'''
 
-#Class based views with APIView for CRUD operations on Student model, which is useful for larger applications or when you want to take advantage of object-oriented programming concepts.
+"""#Class based views with APIView for CRUD operations on Student model, which is useful for larger applications or when you want to take advantage of object-oriented programming concepts.
 class StudentApi(APIView):
     #for retrieving all students or a specific student based on the provided primary key (pk). If pk is None, it retrieves all students; otherwise, it retrieves the student with the given pk. The retrieved data is serialized using the StudentSerializer and returned in the response.
     def get(self, request,pk=None):
@@ -90,4 +90,37 @@ class StudentApi(APIView):
     def delete(self, request, pk):
         student = get_object_or_404(Student, id=pk)
         student.delete()
-        return Response({'message': 'Student deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
+        return Response({'message': 'Student deleted successfully'}, status=status.HTTP_204_NO_CONTENT)"""
+
+#drf class based generic api view + mixin views 
+
+from rest_framework import generics
+from rest_framework.mixins import ListModelMixin, CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, DestroyModelMixin
+
+#class based generic api view + mixin views for getting the entire list of students and adding a new student to the database. 
+class StudentListCreateView(generics.GenericAPIView, ListModelMixin, CreateModelMixin):
+    queryset = Student.objects.all()
+    serializer_class = StudentSerializer
+
+    #for getting the entire data
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+    #for adding a new student to the database
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+#class based generic api view + mixin views for retrieving, updating, or deleting a specific student based on the provided primary key (pk).
+class StudentRetrieveUpdateDestroyView(generics.GenericAPIView, RetrieveModelMixin, UpdateModelMixin, DestroyModelMixin):
+    queryset = Student.objects.all()
+    serializer_class = StudentSerializer
+
+    #for retrieving a specific student based on the provided primary key (pk)
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+    
+    #for updating a specific student based on the provided primary key (pk)
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+    
+    #for deleting a specific student based on the provided primary key (pk)
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
