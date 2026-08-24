@@ -7,8 +7,7 @@ from rest_framework.response import Response
 from rest_framework import status
 #from drf_spectacular.utils import extend_schema 
 '''
-#function-based views for CRUD operations on Student model,which is useful for smaller applications or when you want to have more control over the request and response handling.with the help of api_view decorator.
-
+#function-based views with api_view decorator for CRUD operations on Student model,which is useful for smaller applications or when you want to have more control over the request and response handling.
 @api_view(['GET'])
 def student_list(request):
     students = Student.objects.all()
@@ -48,7 +47,7 @@ def delete_student(request, pk):
     student.delete()
     return Response({'message': 'Student deleted successfully'}, status=status.HTTP_204_NO_CONTENT)'''
 
-#Class based views for CRUD operations on Student model, which is useful for larger applications or when you want to take advantage of object-oriented programming concepts.
+#Class based views with APIView for CRUD operations on Student model, which is useful for larger applications or when you want to take advantage of object-oriented programming concepts.
 class StudentApi(APIView):
     #for retrieving all students or a specific student based on the provided primary key (pk). If pk is None, it retrieves all students; otherwise, it retrieves the student with the given pk. The retrieved data is serialized using the StudentSerializer and returned in the response.
     def get(self, request,pk=None):

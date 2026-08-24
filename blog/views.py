@@ -10,7 +10,7 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from django.core.cache import cache
 from django.views.decorators.cache import cache_page
 
-# Create your views here.
+# Normal function-based views for handling requests and rendering templates. These views are straightforward and suitable for simple applications or when you want to have more control over the request and response handling.
 def home(request):
     return render(request,'blogs/index.html')
 
@@ -116,6 +116,8 @@ class BlogListView(ListView):
 def blog_detail(request, pk):
     blog=get_object_or_404(Blog, pk=pk)
     return render(request, 'blogs/blog_detail.html', {'blog': blog}) """
+
+#class based generic views used for crud operations on the blog model, which is useful for larger applications or when you want to take advantage of object-oriented programming concepts.
 
 #class based views for blog detail
 class BlogDetailView(DetailView):
