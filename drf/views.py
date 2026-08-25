@@ -6,7 +6,8 @@ from .serializers import StudentSerializer
 #from rest_framework.response import Response
 #from rest_framework import status
 #from drf_spectacular.utils import extend_schema 
-'''
+'''1st type of view
+
 #function-based views with api_view decorator for CRUD operations on Student model,which is useful for smaller applications or when you want to have more control over the request and response handling.
 @api_view(['GET'])
 def student_list(request):
@@ -47,7 +48,11 @@ def delete_student(request, pk):
     student.delete()
     return Response({'message': 'Student deleted successfully'}, status=status.HTTP_204_NO_CONTENT)'''
 
-"""#Class based views with APIView for CRUD operations on Student model, which is useful for larger applications or when you want to take advantage of object-oriented programming concepts.
+"""
+2nd type of views:
+
+#Class based APIView for CRUD operations which is used when we need more control over the code ,typically used for custom apis .for simple crud avoid this and use ModelViewset or concrete GenericApiView.
+
 class StudentApi(APIView):
     #for retrieving all students or a specific student based on the provided primary key (pk). If pk is None, it retrieves all students; otherwise, it retrieves the student with the given pk. The retrieved data is serialized using the StudentSerializer and returned in the response.
     def get(self, request,pk=None):
@@ -92,7 +97,11 @@ class StudentApi(APIView):
         student.delete()
         return Response({'message': 'Student deleted successfully'}, status=status.HTTP_204_NO_CONTENT)"""
 
-#drf class based generic api view + mixin views 
+
+"""
+3rd type of view:
+
+#drf generic api view + mixin views ,we have more control than concrete GenericAPIView but less than APIView.use when we need custom crud operations which doesnt provided by concrete generic api view.ie if we only need list and destroy kinda things
 
 from rest_framework import generics
 from rest_framework.mixins import ListModelMixin, CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, DestroyModelMixin
@@ -108,6 +117,7 @@ class StudentListCreateView(generics.GenericAPIView, ListModelMixin, CreateModel
     #for adding a new student to the database
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
+    
 #class based generic api view + mixin views for retrieving, updating, or deleting a specific student based on the provided primary key (pk).
 class StudentRetrieveUpdateDestroyView(generics.GenericAPIView, RetrieveModelMixin, UpdateModelMixin, DestroyModelMixin):
     queryset = Student.objects.all()
@@ -123,4 +133,28 @@ class StudentRetrieveUpdateDestroyView(generics.GenericAPIView, RetrieveModelMix
     
     #for deleting a specific student based on the provided primary key (pk)
     def delete(self, request, *args, **kwargs):
-        return self.destroy(request, *args, **kwargs)
+        return self.destroy(request, *args, **kwargs)"""
+
+#4th type of views:
+#concrete generic api views:GenericAPIView have more control than ModelViewSet but less than others.Use this for standard crud operations only. we can use it where the entire crud operations is not needed
+from rest_framework.generics import ListCreateAPIView,RetrieveUpdateDestroyAPIView 
+
+#for creating and listing
+class StudentListCreateView(ListCreateAPIView):
+    queryset = Student.objects.all()
+    serializer_class = StudentSerializer
+
+#for retrieving, updating, and deleting
+class StudentRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
+    queryset = Student.objects.all()
+    serializer_class = StudentSerializer
+
+"""#5th type of view
+# Crud operations using model viewsets use only when all the crud operations are needed.ie,create,read,update,delete,retrieve all 5.it need a separe router to internally separate urls.
+
+from rest_framework import viewsets
+
+#entire crud operations can be done through just this much of code and mostly used for the time when only standard crud is neeeded and here we have less control over code
+class StudentViewSet(viewsets.ModelViewSet):
+    queryset=Student.objects.all()
+    serializer_class=StudentSerializer"""
