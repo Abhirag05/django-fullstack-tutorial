@@ -138,16 +138,19 @@ class StudentRetrieveUpdateDestroyView(generics.GenericAPIView, RetrieveModelMix
 #4th type of views:
 #concrete generic api views:GenericAPIView have more control than ModelViewSet but less than others.Use this for standard crud operations only. we can use it where the entire crud operations is not needed
 from rest_framework.generics import ListCreateAPIView,RetrieveUpdateDestroyAPIView 
+from rest_framework.permissions import IsAuthenticated,AllowAny
 
 #for creating and listing
 class StudentListCreateView(ListCreateAPIView):
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
+    permission_classes = [AllowAny]  # Allow any user to access this view
 
 #for retrieving, updating, and deleting
 class StudentRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
+    permission_classes = [IsAuthenticated]  # Only authenticated users can access this view
 
 """#5th type of view
 # Crud operations using model viewsets use only when all the crud operations are needed.ie,create,read,update,delete,retrieve all 5.it need a separe router to internally separate urls.
