@@ -141,7 +141,7 @@ class StudentRetrieveUpdateDestroyView(generics.GenericAPIView, RetrieveModelMix
 from rest_framework.generics import ListCreateAPIView,RetrieveUpdateDestroyAPIView 
 #1)basic authentication:from rest_framework.permissions import IsAuthenticated,AllowAny
 
-#2)session based authentication and permission classes :# Only authenticated users can update or delete, but anyone can read we only need to define the permission classes in the settings.py file and it will be applied to all the views in the project.
+#2)session based authentication  : we only need to define the permission classes in the settings.py file and it will be applied to all the views in the project.
 
 #for creating and listing
 class StudentListCreateView(ListCreateAPIView):

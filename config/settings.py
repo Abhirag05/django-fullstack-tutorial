@@ -166,10 +166,11 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
     ],"""
-    #session authentication and permission classes
+    #session authentication 
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.SessionAuthentication',  
     ],
+    #permission classes
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticatedOrReadOnly',  # Only authenticated users can create, update, or delete, but anyone can read
     ],
