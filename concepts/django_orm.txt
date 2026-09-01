@@ -45,3 +45,5 @@ soln for N+1 query problem in Django ORM:
 quick notes:
 --select_related() is for single related objects and uses SQL JOINs.
 --prefetch_related() is for multiple related objects and uses separate queries.
+
+3)cascade:it will delete all the related objects when the parent object is deleted. It is used in ForeignKey and OneToOneField relationships.
