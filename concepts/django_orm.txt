@@ -1,0 +1,47 @@
+
+soln for N+1 query problem in Django ORM:
+
+1) select_related():
+    This method is used to optimize database queries by performing a single JOIN operation to fetch related objects in a single query, rather than making separate queries for each related object.
+
+    eg:
+     lets say we have two models, Author and Book, where each Book has a foreign key to Author. If we want to retrieve all books along with their authors, we can use select_related() to fetch the related author objects in one query.
+
+     code:
+     class Author(models.Model):
+         name = models.CharField(max_length=100)
+     
+     class Book(models.Model):
+         title = models.CharField(max_length=100)
+         author = models.ForeignKey(Author, on_delete=models.CASCADE)
+    
+    query:
+    books = Book.objects.select_related('author').all()
+
+    sql behind the scenes:
+    SELECT book.id, book.title, author.id, author.name from book INNER JOIN author ON book.author_id = author.id;
+
+2)prefetch_related():
+    This method is used to optimize database queries by performing a separate query to fetch related objects and then caching them for later use. It is useful when you have a one-to-many or many-to-many relationship and want to avoid the N+1 query problem.
+
+    eg:
+     lets say we have two models, Author and Book, where each Author can have multiple Books. If we want to retrieve all authors along with their books, we can use prefetch_related() to fetch the related book objects in a separate query.
+
+     code:
+     class Author(models.Model):
+         name = models.CharField(max_length=100)
+     
+     class Book(models.Model):
+         title = models.CharField(max_length=100)
+         author = models.ForeignKey(Author, on_delete=models.CASCADE)
+    
+    query:
+    authors = Author.objects.prefetch_related('book_set').all()
+
+    sql behind the scenes:
+    SELECT * FROM author;
+    SELECT * FROM book WHERE author_id IN (list of author ids);
+
+quick notes:
+--select_related() is for single related objects and uses SQL JOINs.
+--prefetch_related() is for multiple related objects and uses separate queries.
